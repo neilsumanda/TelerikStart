@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Grid";
+}
+
+<h2>Grid</h2>
+<!-- 1) tab 2) splitter -->
+@(Html.Kendo().Grid<TelerikStart.Models.CompanyRepresentative>()
+                .Name("gridContactName")
+                .AutoBind(true)
+                .Columns(col =>
+                {
+                    col.Bound(c => c.ContactName);
+                    col.Bound(c => c.ContactTitle);
+                    col.Bound(c => c.CompanyName);
+                    col.Bound(c => c.Country);
+                })
+                .ToolBar(tool =>
+                {
+                    //tool.Search(); clientSide
+                    tool.Template(
+                        @<div>
+                            <span class="k-textbox k-grid-search k-display-flex float-left" style="margin-left: 3px; width: 200px;">
+                                <input id="search-grid" autocomplete="off" placeholder="Search..." class="k-input" />
+                                <span class="k-input-icon"><button type="button" class="btn btn-sm"><i class="k-icon k-i-search"></i></button></span>
+                            </span>
+                        </div>
+                        );
+
+                })
+                .Search(s => s.Field(f => f.CompanyName).Field(f => f.Country))
+                .Scrollable(s => s.Height(600))
+                .Pageable(s => s.Refresh(true).Numeric(true))
+                .Sortable()
+                .DataSource(ds => ds
+                    .Ajax()
+                    .Model(m => { m.Id(p => p.Id); m.Field(f => f.CompanyName); })
+                    .Read(read => read.Action("GetCompanyRepresentatives", "Home").Data("rptMasterSearch"))
+                    .ServerOperation(true)
+
+                )
+)

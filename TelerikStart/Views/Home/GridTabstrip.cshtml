@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "GridTabstrip";
+}
+
+<h2>GridTabstrip</h2>
+
+<br />
+@(Html.Kendo().Splitter()
+            .Name("vertical")
+            .Orientation(SplitterOrientation.Horizontal)
+            .HtmlAttributes(new { style = "height:900px;" })
+            .Panes(verticalPanes =>
+            {
+                verticalPanes.Add()
+                    //.HtmlAttributes(new { id = "top-pane" })
+                    .Scrollable(false)
+                    .Collapsible(false)
+                    .Content(@<text>@Html.Action("Grid", "Home")</text>)
+                    //.LoadContentFrom("Grid", "Home")
+                    ;
+
+                verticalPanes.Add()
+                    .Scrollable(false)
+                    .Collapsible(false)
+                    .LoadContentFrom("Splitter2", "Home");
+            })
+
+
+)
